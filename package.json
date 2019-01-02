@@ -11,6 +11,12 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "leboncoin-api": "0.0.35"
+    "get-image-colors": "^2.0.0",
+    "image-palette": "^2.1.0",
+    "image-pixels": "^2.2.0",
+    "is-browser": "^2.1.0",
+    "leboncoin-api": "0.0.35",
+    "nearest-color": "^0.4.4",
+    "rgb-hex": "^2.1.0"
   }
 }

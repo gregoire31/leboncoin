@@ -65,20 +65,31 @@ class App extends Component {
      let {annonces} = this.state
      let tableauImages = []
      let columns = ''
+     let tableauTamponCouleur = []
+     
      console.log(annonces)
      if(annonces !== undefined){
        console.log(annonces)
       for(let u = 0 ; u < annonces.length ; u++){
       
-        for(let i = 0 ; i < annonces[u].results.length ; i++){
+        for(let i = 0 ; i < annonces[u][0].length ; i++){
           //console.log(annonces[i].images)
-          if(annonces[u].results[i].images !== undefined){
+          if(annonces[u][0][i].images !== undefined){
+            let longeurCouleurImages = annonces[u][1].length
+            for(let f = 0 ; f < longeurCouleurImages ; f++){
+              //console.log(annonces[u][1][f][0])
+              if(annonces[u][1][f][0] === i ){
+                console.log(annonces[u][1][f][1])
+                tableauTamponCouleur.push(annonces[u][1][f][1])
+              //}
+            }
+          }
 
           //if(annonces[u].results[i].location.department_id === "31"){
             //if(annonces[u].results[i].description.includes("panier") || annonces[u].results[i].title.includes("panier")){
               //if(annonces[u].results[i].description.includes("ville") || annonces[u].results[i].title.includes("ville")){
-                tableauImages.push([annonces[u].results[i].id , annonces[u].results[i].images, annonces[u].results[i].title,annonces[u].results[i].link,annonces[u].results[i].price, annonces[u].results[i].date])
-
+                tableauImages.push([annonces[u][0][i].id , [annonces[u][0][i].images,tableauTamponCouleur], annonces[u][0][i].title,annonces[u][0][i].link,annonces[u][0][i].price, annonces[u][0][i].date])
+                tableauTamponCouleur = []
               //}
 
             //} 
@@ -92,21 +103,26 @@ class App extends Component {
         }
       }
   
-       console.log(tableauImages.length)
-        columns = tableauImages.map((tableau)=> {
-         return(
-         <Grid.Column key={tableau[0]}>
-         <h1>{tableau[2]} PRICE : {tableau[4]}</h1>
-         <p>{tableau[3]}</p>
-          <span>{tableau[5]}</span>
+      console.log(tableauImages.length)
+      columns = tableauImages.map((tableau)=> {
+       return(
+       <Grid.Column key={tableau[0]}>
+       <h1>{tableau[2]} PRICE : {tableau[4]}</h1>
+       <p>{tableau[3]} <span>{tableau[5]}</span> </p>
+       
+       {tableau[1][1].map(coloration=>(
+         <p style={{height: '100px', width: '290px',display:'inline-block', backgroundColor: `#${coloration}`}}>*</p>
+       ))}
 
-         {tableau[1].map(tableauimage=>(
-       
-          <Image key={tableauimage.split('/')[4].split('.')[0]} style={styleImage} src={tableauimage}/>
-       
-        ))}
-         </Grid.Column>
-       )})
+       {tableau[1][0].map(tableauimage=>(
+     
+        <Image key={tableauimage.split('/')[4].split('.')[0]} style={styleImage} src={tableauimage}/>
+        
+     
+      ))}
+       </Grid.Column>
+     )})
+   
      
     
 
