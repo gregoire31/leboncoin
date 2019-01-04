@@ -35,7 +35,7 @@ class App extends Component {
     }
 
 
-    
+  
 
    componentDidMount() {
        fetch('http://localhost:4000/annonces')
@@ -58,7 +58,6 @@ class App extends Component {
    //}
       
   
-    
   
   render() {
 
@@ -67,23 +66,27 @@ class App extends Component {
      let columns = ''
      let tableauTamponCouleur = []
      
-     console.log(annonces)
+     //console.log(annonces)
      if(annonces !== undefined){
-       console.log(annonces)
+       //console.log(annonces)
       for(let u = 0 ; u < annonces.length ; u++){
-      
+        console.log(annonces)
         for(let i = 0 ; i < annonces[u][0].length ; i++){
+          //console.log(annonces[u][0][i].location)
+          if(annonces[u][0][i].location.department_id !== "1"){
+
           //console.log(annonces[i].images)
           if(annonces[u][0][i].images !== undefined){
             let longeurCouleurImages = annonces[u][1].length
             for(let f = 0 ; f < longeurCouleurImages ; f++){
               //console.log(annonces[u][1][f][0])
               if(annonces[u][1][f][0] === i ){
-                console.log(annonces[u][1][f][1])
+                //console.log(annonces[u][1][f][1])
                 tableauTamponCouleur.push(annonces[u][1][f][1])
               //}
             }
           }
+        }
 
           //if(annonces[u].results[i].location.department_id === "31"){
             //if(annonces[u].results[i].description.includes("panier") || annonces[u].results[i].title.includes("panier")){
@@ -111,7 +114,7 @@ class App extends Component {
        <p>{tableau[3]} <span>{tableau[5]}</span> </p>
        
        {tableau[1][1].map(coloration=>(
-         <p style={{height: '100px', width: '290px',display:'inline-block', backgroundColor: `#${coloration}`}}>*</p>
+         <p style={{height: '100px', width: '290px',display:'inline-block', backgroundColor: `${coloration}`}}>*</p>
        ))}
 
        {tableau[1][0].map(tableauimage=>(
