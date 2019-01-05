@@ -73,7 +73,7 @@ class App extends Component {
         console.log(annonces)
         for(let i = 0 ; i < annonces[u][0].length ; i++){
           //console.log(annonces[u][0][i].location)
-          if(annonces[u][0][i].location.department_id !== "1"){
+          if(annonces[u][0][i].location.department_id === "31"){
 
           //console.log(annonces[i].images)
           if(annonces[u][0][i].images !== undefined){
@@ -91,7 +91,11 @@ class App extends Component {
           //if(annonces[u].results[i].location.department_id === "31"){
             //if(annonces[u].results[i].description.includes("panier") || annonces[u].results[i].title.includes("panier")){
               //if(annonces[u].results[i].description.includes("ville") || annonces[u].results[i].title.includes("ville")){
-                tableauImages.push([annonces[u][0][i].id , [annonces[u][0][i].images,tableauTamponCouleur], annonces[u][0][i].title,annonces[u][0][i].link,annonces[u][0][i].price, annonces[u][0][i].date])
+                if(tableauTamponCouleur[0] !== undefined){
+
+                  tableauImages.push([annonces[u][0][i].id , [annonces[u][0][i].images,tableauTamponCouleur], annonces[u][0][i].title,annonces[u][0][i].link,annonces[u][0][i].price, annonces[u][0][i].date])
+                  //console.log(tableauTamponCouleur)
+                }
                 tableauTamponCouleur = []
               //}
 
@@ -106,15 +110,17 @@ class App extends Component {
         }
       }
   
-      console.log(tableauImages.length)
+      //console.log(tableauImages.length)
+      console.log(tableauImages)
       columns = tableauImages.map((tableau)=> {
+        console.log(tableau[1])
        return(
        <Grid.Column key={tableau[0]}>
        <h1>{tableau[2]} PRICE : {tableau[4]}</h1>
        <p>{tableau[3]} <span>{tableau[5]}</span> </p>
        
        {tableau[1][1].map(coloration=>(
-         <p style={{height: '100px', width: '290px',display:'inline-block', backgroundColor: `${coloration}`}}>*</p>
+         <p style={{height: '100px', width: '290px',display:'inline-block', backgroundColor: `#${coloration}`}}>*</p>
        ))}
 
        {tableau[1][0].map(tableauimage=>(
