@@ -186,6 +186,7 @@ var palette = require('image-palette')
 var pixels = require('image-pixels')
 var nearestColor = require('nearest-color').from(colors);
 var Vibrant = require('node-vibrant')
+const getColors = require('get-image-colors')
  
 //nearestColor('#800');
 
@@ -225,21 +226,22 @@ app.get('/annonces', (req,res,next) => {
                 let longeurTableauData = dota.length // résults = 35
                 let vibrantPalette = []
                 for(let o = 0 ; o < longeurTableauData ; o++){
+                    console.log(o)
 
 
                     if(dota[o].images !== undefined){
-                        Vibrant.from(dota[o].images[0]).getPalette((err, palette) => {if(palette.Vibrant !== null && palette.LightVibrant!== null && palette.DarkVibrant!== null && palette.Muted!== null && palette.LightMuted!== null && palette.DarkMuted!== null ){
-                            let Vibrant = palette.Vibrant.getHex()
-                            let LightVibrant = palette.LightVibrant.getHex()
-                            let DarkVibrant = palette.DarkVibrant.getHex()
-                            let Muted = palette.Muted.getHex()
-                            let LightMuted = palette.LightMuted.getHex()
-                            let DarkMuted = palette.DarkMuted.getHex()
-
-                            couleurImagesTrouvees.push([o],[
-                                Vibrant,LightVibrant,DarkVibrant,Muted,LightMuted,DarkMuted
-                        ])}})
-                        setTimeout(function(){ console.log(vibrantPalette); }, 3000);
+                        //Vibrant.from(dota[o].images[0]).getPalette((err, palette) => {if(palette.Vibrant !== null && palette.LightVibrant!== null && palette.DarkVibrant!== null && palette.Muted!== null && palette.LightMuted!== null && palette.DarkMuted!== null ){
+                        //    let Vibrant = palette.Vibrant.getHex()
+                        //    let LightVibrant = palette.LightVibrant.getHex()
+                        //    let DarkVibrant = palette.DarkVibrant.getHex()
+                        //    let Muted = palette.Muted.getHex()
+                        //    let LightMuted = palette.LightMuted.getHex()
+                        //    let DarkMuted = palette.DarkMuted.getHex()
+//
+                        //    couleurImagesTrouvees.push([o],[
+                        //        Vibrant,LightVibrant,DarkVibrant,Muted,LightMuted,DarkMuted
+                        //])}})
+                        //setTimeout(function(){ console.log(vibrantPalette); }, 3000);
 
                         //Vibrant.from(dota[o].images[0]).getPalette()
                         //.then((palette) =>  console.log(vibrantPalette))
@@ -249,30 +251,39 @@ app.get('/annonces', (req,res,next) => {
                         //let longeurTableau = dota[i].images.length
                         //for(let u = 0 ; u < 1; u++){
 
-                           // //var {ids, colors} = palette(await pixels(dota[i].images[u]))
-                           // var {ids, colors} = palette(dota[o].images[0], count=5)
-                           // //var {ids, colors, amount} = palette(await pixels(dota[o].images[0], count=5))
-                           // let longeurArrayCouleur = (colors.length)
-                           // //console.log(colors.map(color => color.hex()))
-                           // //colors.map(color => console.log(color))
-                           // //console.log(colors)
-                           // //console.log(dota[i].images[0])
-                           // //getColors(dota[i].images[0]).then(colors => {
-                           // //    // `colors` is an array of color objects
-                           // //    console.log(dota[i].images[0])
-                           // for(let x = 0 ; x <longeurArrayCouleur  ; x++){
-                           //     //console.log(nearestColor(colors[x].hex()))
-//
-                           //     let colorTrouvee = rgbHex(colors[x][0],colors[x][1],colors[x][2])
-                           //     //console.log(colorTrouvee)
-                           //     let colorus = (nearestColor(`#${colorTrouvee}`).value)
-                           //     //console.log(colors[x][3])
-                           //     //console.log(colorTrouvee)
-                           //     couleurImagesTrouvees.push([o,colorus])
-                           // }
+                            //var {ids, colors} = palette(await pixels(dota[i].images[u]))
+                            //var {ids, colors} = palette(pixels(dota[o].images[0], count=5))
+                            //var {ids, colors, amount} = palette(await pixels(dota[o].images[0], count=5))
+
+                            getColors(dota[o].images[0],function(err,colors) {
+                                // `colors` is an array of color objects
+                            //console.log(colors)
+
+                            //let longeurArrayCouleur = (colors.length)
+                            //console.log(colors.map(color => color.hex()))
+                            //colors.map(color => console.log(color))
+                            //console.log(colors)
+                            //console.log(dota[i].images[0])
+                            //getColors(dota[i].images[0]).then(colors => {
+                            //    // `colors` is an array of color objects
+                            //    console.log(dota[i].images[0])
+
+                            colors.map(color => couleurImagesTrouvees.push([o,color.hex()]))
+                            
 
 
+                            //for(let x = 0 ; x <longeurArrayCouleur  ; x++){
+                            //    //console.log(nearestColor(colors[x].hex()))
+                            //   let colorTrouvee = rgbHex(colors._rgb[x][0],colors._rgb[x][1],colors._rgb[x][2])
+                            //    //console.log(colors._rgb[x])
+                            //    let colorus = (nearestColor(`#${colorTrouvee}`).value)
+                            //    //console.log(colors[x][3])
+                            //    //console.log(colorTrouvee)
+                            //    couleurImagesTrouvees.push([o,colorTrouvee])
                             //}
+                            //})
+
+                            })
 
                             //getColors(dota[i].images[u]).then(colors => {
                             //    console.log(colors.map(color => nearestColor(color.hex())))
@@ -282,6 +293,10 @@ app.get('/annonces', (req,res,next) => {
 
                     }
                 }
+
+
+                 
+                
 
 
                 console.log(data.page)
@@ -299,12 +314,21 @@ app.get('/annonces', (req,res,next) => {
                 // }, function (err) {
                 //     console.error(err); // if the phone number is not available or not parsable (image -> string) 
                 // });
-                dataFinal.push([dota,couleurImagesTrouvees])
+                
+                console.log(couleurImagesTrouvees)
                 couleurImagesTrouvees = []
                 if (i === (longeurTableau - 1)){
-                    return res.json({
-                        data: dataFinal
-                    })
+
+                    setTimeout(function(){
+                        dataFinal.push([dota,couleurImagesTrouvees])
+                        console.log(couleurImagesTrouvees)
+
+                        return res.json({
+                            data: dataFinal
+                        })
+                        
+                    },3000)
+                    
                 }
                 
 
